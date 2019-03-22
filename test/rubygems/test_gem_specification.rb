@@ -2,6 +2,7 @@
 require 'benchmark'
 require 'rubygems/test_case'
 require 'pathname'
+require 'rbconfig'
 require 'stringio'
 require 'rubygems/ext'
 require 'rubygems/specification'
@@ -1970,6 +1971,12 @@ dependencies: []
 
     assert_equal File.join(@gemhome, 'gems', @a1.original_name),
                  @a1.full_gem_path
+  end
+
+  def test_full_gem_path_default_gems
+    spec = new_default_spec 'default', 1
+
+    assert_equal RbConfig::CONFIG["rubylibdir"], spec.full_gem_path
   end
 
   def test_full_gem_path_double_slash

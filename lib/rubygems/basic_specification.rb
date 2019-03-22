@@ -104,8 +104,13 @@ class Gem::BasicSpecification
   end
 
   def find_full_gem_path # :nodoc:
-    # TODO: also, shouldn't it default to full_name if it hasn't been written?
-    path = File.expand_path File.join(gems_dir, full_name)
+    if default_gem?
+      require 'rbconfig'
+      path = RbConfig::CONFIG["rubylibdir"]
+    else
+      # TODO: also, shouldn't it default to full_name if it hasn't been written?
+      path = File.expand_path File.join(gems_dir, full_name)
+    end
     path.untaint
     path
   end
